@@ -242,6 +242,7 @@ const App = () => {
           </p>
           <MarkupStyledText text="</p>" />
         </PageSection>
+        <div className="border-b border-black dark:border-gray-200 my-6"></div>
         <PageSection>
           <MarkupStyledText text="<h3>" />
           <h1 className="font-bold text-xl uppercase">Résumé</h1>
@@ -268,6 +269,7 @@ const App = () => {
             </ResumeYearSection>
           ))}
         <MarkupStyledText text="</résumé>" />
+        <div className="border-b border-black dark:border-gray-200 my-6"></div>
         <PageSection>
           <MarkupStyledText text="<h3>" />
           <h1 className="font-bold text-xl uppercase">Portfolio Roadmap</h1>
