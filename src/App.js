@@ -1,193 +1,49 @@
 import { useState } from "react";
 import { BiMoon, BiSun } from "react-icons/bi";
+import InlineLink from "./components/InlineLink.jsx";
+import SecondaryButton from "./components/SecondaryButton.jsx";
+import ResumeYearSection from "./components/ResumeYearSection.jsx";
+import MarkupStyledText from "./components/MarkupStyleText.jsx";
+import PageSection from "./components/PageSection.jsx";
+import AccentColorChoiceBox from "./components/AccentColorChoiceBox.jsx";
+import ResumeActivitySection from "./components/ResumeActivitySection.jsx";
 import PdfResume from "./assets/resume.pdf";
+import experienceList from "./data/experience";
+import roadmapTasks from "./data/roadmap";
+import accentColors from "./data/accentColors.js";
 
 const githubLink = "https://github.com/staradan";
 const linkedInLink = "https://www.linkedin.com/in/danielpstara/";
 const bookListLink =
   "https://tested-theater-a99.notion.site/Books-7b13a362879d4d70ba3d597033234cd5";
 
-let textAccentColor = "text-amber-500";
-let hoverTextAccentColor = "hover:text-amber-500";
-let decorationAccentColor = "decoration-amber-500";
-
-const MarkupStyledText = ({ text }) => (
-  <span className={`${textAccentColor} text-sm italic`}>{text}</span>
-);
-
-const ResumeYearSection = ({ year, children }) => (
-  <div className="flex">
-    <div>
-      <p className="font-bold text-md mr-4 text-lg">{year}</p>
-    </div>
-    <div className="w-3/5">{children}</div>
-  </div>
-);
-
-const ResumeActivitySection = ({ title, description, link }) => (
-  <div className="border-b border-dashed border-black dark:border-gray-100 pb-4 mb-4 w-full">
-    <div className="w-full">
-      <a
-        className="font-bold text-md underline cursor-pointer w-full"
-        href={link}
-      >
-        <InlineLink>{title}</InlineLink>
-      </a>
-      <p className="text-gray-500 mt-2 dark:text-gray-400 w-full">
-        {description}
-      </p>
-    </div>
-  </div>
-);
-
-const SecondaryButton = ({ children, onClick }) => (
-  <div
-    className="p-2 px-4 bg-gray-200 rounded mr-2 text-gray-800 cursor-pointer ease-in duration-100 hover:bg-gray-300 dark:bg-gray-500 dark:hover:bg-gray-200"
-    onClick={onClick}
-  >
-    <p>{children}</p>
-  </div>
-);
-
-const PageSection = ({ children, isFlex }) => (
-  <div className={"my-4 " + (isFlex ? "flex overflow-x-auto" : "")}>
-    {children}
-  </div>
-);
-
-const InlineLink = ({ children, spaceLeft }) => (
-  <span
-    className={`${
-      spaceLeft ? "ml-1" : ""
-    } underline  ${decorationAccentColor} ease-in duration-100 ${hoverTextAccentColor} cursor-pointer`}
-  >
-    {children}
-  </span>
-);
-
-const AccentColorChoiceBox = ({ className }) => (
-  <div
-    className={
-      "h-6 w-6 rounded cursor-pointer mr-1 border-2 ease-in duration-100 " +
-      className
-    }
-  ></div>
-);
-
-const experienceList = {
-  2022: [
-    {
-      title: "Tapp Sports | Co-Founder",
-      description:
-        "Helping coaches measure what matters | TypeScript, React, Firebase",
-      link: "https://tappsports.com",
-      year: 2022,
-    },
-    {
-      title: "University of Nebraska - Lincoln Raikes School",
-      description:
-        "Studying at the intersection of computer science and business management",
-      link: "https://raikes.unl.edu/",
-      year: 2022,
-    },
-    {
-      title: "Husker Women's Basketball",
-      description: "Scout team player",
-      link: "https://huskers.com/sports/womens-basketball",
-      year: 2022,
-    },
-    {
-      title: "FOCUS Greek",
-      description:
-        "Planned 3+ months of activity for missionary, serving 100+ students",
-      link: "https://focusoncampus.org/greek",
-      year: 2022,
-    },
-  ],
-  2020: [
-    {
-      title: "NRC Health",
-      description:
-        "Full stack software development | Ember.js, Node.js, MSSQL, AWS",
-      link: "https://nrchealth.com/",
-      year: 2020,
-    },
-    {
-      title: "Husker Baseball",
-      description: "Bullpen catcher for the Nebraska baseball team",
-      link: "https://huskers.com/sports/baseball",
-      year: 2020,
-    },
-    {
-      title: "UNL Food Delivery",
-      description: "Capitalized on new dining options at UNL",
-      link: "https://unlfd.netlify.com",
-      year: 2020,
-    },
-  ],
-  2019: [
-    {
-      title: "Independent Research | Smart Football Helmet",
-      description:
-        "Cloud-connect smart football helmet that controls variable padding based on predicted impact",
-      link: "",
-      year: 2019,
-    },
-    {
-      title: "Bell Chime for St. Anthony's Church",
-      description:
-        "Arduino controlled bell chime running in St. Anthony's in Bruno, NE",
-      link: "https://github.com/staradan/st-anthonys-automated-bell-clock",
-      year: 2019,
-    },
-  ],
-  2017: [
-    {
-      title: "Stara iPhone Repair",
-      description: "Fixing the destroyed phones of rural NE",
-      link: "",
-      year: 2017,
-    },
-  ],
-};
-
-const roadmapTasks = [
-  {
-    title: "Implement accent color choice",
-    description: "So many colors, so little time",
-    link: "",
-    year: 2017,
-  },
-  {
-    title: "Improve dark mode",
-    description: "Use system setting & persist choice after refresh",
-    link: "",
-    year: 2017,
-  },
-  {
-    title: "Add hyperlinks to all underlined text",
-    description: "Consistency is key",
-    link: "",
-    year: 2017,
-  },
-  {
-    title: "Add cool art when dark mode is switched",
-    description: "Coming soon",
-    link: "",
-    year: 2017,
-  },
-];
-
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [activeAccentColorId, setActiveAccentColorId] = useState("amber");
+  const [textAccentColor, setTextAccentColor] = useState(
+    accentColors["amber"].textAccentColor
+  );
+  const [hoverTextAccentColor, setHoverTextAccentColor] = useState(
+    accentColors["amber"].hoverTextAccentColor
+  );
+  const [decorationAccentColor, setDecorationAccentColor] = useState(
+    accentColors["amber"].decorationAccentColor
+  );
 
   const handleDarkModeClick = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  const handleAccentColorChange = (id) => {
+    setActiveAccentColorId(id);
+    setTextAccentColor(accentColors[id].textAccentColor);
+    setHoverTextAccentColor(accentColors[id].hoverTextAccentColor);
+    setDecorationAccentColor(accentColors[id].decorationAccentColor);
+  };
+
   return (
     <div className={isDarkMode ? "dark" : ""}>
-      <div className="p-4 md:py-12 md:px-48 dark:bg-gray-900 dark:text-gray-100">
+      <div className="p-4 lg:py-12 lg:px-48 dark:bg-gray-900 dark:text-gray-100">
         <div className="flex">
           <div
             className="h-6 w-6 rounded cursor-pointer mr-1 bg-gray-500 ease-in duration-100 hover:bg-gray-600 hover:border-gray-600 border-gray-500 border-2 text-center"
@@ -199,19 +55,20 @@ const App = () => {
               <BiMoon className="text-white h-5 w-5" />
             )}
           </div>
-          <div className="pr-2 mr-3 border-r-2 border-black"></div>
-          <AccentColorChoiceBox className="bg-amber-400 hover:bg-amber-500 border-amber-500" />
-          <AccentColorChoiceBox className="bg-lime-400 hover:bg-lime-500 border-lime-500" />
-          <AccentColorChoiceBox className="bg-red-400 hover:bg-red-500 border-red-500" />
-          <AccentColorChoiceBox className="bg-orange-400 hover:bg-orange-500 border-orange-500" />
-          <AccentColorChoiceBox className="bg-cyan-400 hover:bg-cyan-500 border-cyan-500" />
-          <AccentColorChoiceBox className="bg-violet-400 hover:bg-violet-500 border-violet-500" />
-          <AccentColorChoiceBox className="bg-pink-400 hover:bg-pink-500 border-pink-500" />
+          <div className="pr-2 mr-3 border-r-2 border-gray-400 dark:border-gray-600"></div>
+          {Object.keys(accentColors).map((key) => (
+            <AccentColorChoiceBox
+              className={accentColors[key].selectBoxStyle}
+              onClick={handleAccentColorChange}
+              id={key}
+              activeAccentColorId={activeAccentColorId}
+            />
+          ))}
         </div>
         <PageSection>
-          <MarkupStyledText text="<h1>" />
+          <MarkupStyledText text="<h1>" textAccentColor={textAccentColor} />
           <h1 className="font-bold text-3xl uppercase">Daniel Stara</h1>
-          <MarkupStyledText text="</h1>" />
+          <MarkupStyledText text="</h1>" textAccentColor={textAccentColor} />
         </PageSection>
         <PageSection isFlex>
           <a href={githubLink}>
@@ -229,98 +86,178 @@ const App = () => {
           </a>
         </PageSection>
         <PageSection>
-          <MarkupStyledText text="<p>" />
+          <MarkupStyledText text="<p>" textAccentColor={textAccentColor} />
           <p>
             I am a problem-solver who loves leveraging technology to empower
             individuals, synergize teams, and improve communities. I spend my
             time
-            <InlineLink spaceLeft>reading</InlineLink>,
-            <InlineLink spaceLeft>designing</InlineLink>,
-            <InlineLink spaceLeft>building</InlineLink>, playing sports, and
-            talking about cool new startups. Simplicity is the ultimate
-            sophistication.
+            <InlineLink
+              spaceLeft
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+            >
+              reading
+            </InlineLink>
+            ,
+            <InlineLink
+              spaceLeft
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+            >
+              designing
+            </InlineLink>
+            ,
+            <InlineLink
+              spaceLeft
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+            >
+              building
+            </InlineLink>
+            , playing sports, and talking about cool new startups. Simplicity is
+            the ultimate sophistication.
           </p>
-          <MarkupStyledText text="</p>" />
+          <MarkupStyledText text="</p>" textAccentColor={textAccentColor} />
         </PageSection>
         <div className="border-b border-black dark:border-gray-200 my-6"></div>
         <PageSection>
-          <MarkupStyledText text="<h3>" />
+          <MarkupStyledText text="<h3>" textAccentColor={textAccentColor} />
           <h1 className="font-bold text-xl uppercase">Résumé</h1>
-          <MarkupStyledText text="</h3>" />
+          <MarkupStyledText text="</h3>" textAccentColor={textAccentColor} />
         </PageSection>
-        <MarkupStyledText text="<résumé>" />
+        <MarkupStyledText text="<résumé>" textAccentColor={textAccentColor} />
         {Object.keys(experienceList)
           .sort((a, z) => {
             return z - a;
           })
-          .map((experienceListKey) => (
+          .map((experienceListKey, index) => (
             <ResumeYearSection year={experienceListKey}>
               {experienceList[experienceListKey]
                 .filter(
-                  (experienceObj) => experienceObj.year == experienceListKey
+                  (experienceObj) =>
+                    String(experienceObj.year) === String(experienceListKey)
                 )
                 .map((experienceObj) => (
                   <ResumeActivitySection
                     title={experienceObj.title}
                     description={experienceObj.description}
                     link={experienceObj.link}
+                    decorationAccentColor={decorationAccentColor}
+                    hoverTextAccentColor={hoverTextAccentColor}
+                    id={index}
                   />
                 ))}
             </ResumeYearSection>
           ))}
-        <MarkupStyledText text="</résumé>" />
+        <MarkupStyledText text="</résumé>" textAccentColor={textAccentColor} />
         <div className="border-b border-black dark:border-gray-200 my-6"></div>
         <PageSection>
-          <MarkupStyledText text="<h3>" />
+          <MarkupStyledText text="<h3>" textAccentColor={textAccentColor} />
           <h1 className="font-bold text-xl uppercase">Portfolio Roadmap</h1>
-          <MarkupStyledText text="</h3>" />
+          <MarkupStyledText text="</h3>" textAccentColor={textAccentColor} />
         </PageSection>
 
-        <ResumeYearSection year="High Priority">
-          {roadmapTasks.map((experienceObj) => (
-            <ResumeActivitySection
-              title={experienceObj.title}
-              description={experienceObj.description}
-              link={experienceObj.link}
-            />
-          ))}
+        <ResumeYearSection year="ToDo">
+          {roadmapTasks
+            .filter((experienceObj) => experienceObj.status === "ToDo")
+            .map((experienceObj, index) => (
+              <ResumeActivitySection
+                title={experienceObj.title}
+                description={experienceObj.description}
+                link={experienceObj.link}
+                decorationAccentColor={decorationAccentColor}
+                hoverTextAccentColor={hoverTextAccentColor}
+                id={index}
+              />
+            ))}
+        </ResumeYearSection>
+
+        <ResumeYearSection year="Done">
+          {roadmapTasks
+            .filter((experienceObj) => experienceObj.status === "Done")
+            .map((experienceObj, index) => (
+              <ResumeActivitySection
+                title={experienceObj.title}
+                description={experienceObj.description}
+                link={experienceObj.link}
+                decorationAccentColor={decorationAccentColor}
+                hoverTextAccentColor={hoverTextAccentColor}
+                id={index}
+              />
+            ))}
         </ResumeYearSection>
         <PageSection>
-          <MarkupStyledText text="<p>" />
+          <MarkupStyledText text="<p>" textAccentColor={textAccentColor} />
           <p>
             This page was inspired by a number of portfolios made by talented
             developers. They are
-            <a href="https://nathangentry.me/">
-              <InlineLink spaceLeft>Nathan Gentry</InlineLink>
-            </a>
+            <InlineLink
+              link="https://nathangentry.me/"
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+              spaceLeft
+            >
+              Nathan Gentry
+            </InlineLink>
             ,
-            <a href="https://www.nicksiscoe.com/">
-              <InlineLink spaceLeft>Nick Siscoe</InlineLink>
-            </a>
+            <InlineLink
+              link="https://www.nicksiscoe.com/"
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+              spaceLeft
+            >
+              Nick Siscoe
+            </InlineLink>
             ,
-            <a href="https://timroty.github.io/">
-              <InlineLink spaceLeft>Tim Roty</InlineLink>
-            </a>
+            <InlineLink
+              link="https://timroty.github.io/"
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+              spaceLeft
+            >
+              Tim Roty
+            </InlineLink>
             ,
-            <a href="https://www.jboesch.xyz/">
-              <InlineLink spaceLeft>Jordan Boesch</InlineLink>
-            </a>
+            <InlineLink
+              link="https://www.jboesch.xyz/"
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+              spaceLeft
+            >
+              Jordan Boesch
+            </InlineLink>
             ,
-            <a href="https://www.parker-miller.com/">
-              <InlineLink spaceLeft>Parker Miller</InlineLink>
-            </a>
+            <InlineLink
+              link="https://www.parker-miller.com/"
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+              spaceLeft
+            >
+              Parker Miller
+            </InlineLink>
             , and
-            <a href="https://daneden.me/">
-              <InlineLink spaceLeft>Daniel Eden</InlineLink>
-            </a>
+            <InlineLink
+              link="https://daneden.me/"
+              decorationAccentColor={decorationAccentColor}
+              hoverTextAccentColor={hoverTextAccentColor}
+              spaceLeft
+            >
+              Daniel Eden
+            </InlineLink>
           </p>
-          <MarkupStyledText text="</p>" />
+          <MarkupStyledText text="</p>" textAccentColor={textAccentColor} />
         </PageSection>
 
         <PageSection>
-          <MarkupStyledText text="<signoff>" />
+          <MarkupStyledText
+            text="<signoff>"
+            textAccentColor={textAccentColor}
+          />
           <p>Made with ❤️ by Daniel Stara</p>
-          <MarkupStyledText text="</signoff>" />
+          <MarkupStyledText
+            text="</signoff>"
+            textAccentColor={textAccentColor}
+          />
         </PageSection>
       </div>
     </div>
