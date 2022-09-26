@@ -12,7 +12,7 @@ const AccentColorChoiceBox = ({
     onClick={() => onClick(id)}
   >
     {id === activeAccentColorId ? (
-      <BiCheck className="text-white h-5 w-5" />
+      <BiCheck className="text-white h-5 w-5 text-black" />
     ) : (
       <div className="h-5 w-5"></div>
     )}
